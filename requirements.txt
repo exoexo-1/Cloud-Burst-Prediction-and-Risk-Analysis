@@ -1,4 +1,30 @@
+# Core data handling
 pandas
+numpy
+scipy
+
+# Visualization
 matplotlib
 seaborn
+plotly
+
+# Machine Learning & Deep Learning
+scikit-learn
+xgboost
+lightgbm
+tensorflow
+torch
+torchvision
+torchaudio
+
+# Fuzzy Logic
+scikit-fuzzy
+
+# APIs & Requests
 requests
+openai
+
+
+# Extra Utilities
+python-dotenv
+joblib
