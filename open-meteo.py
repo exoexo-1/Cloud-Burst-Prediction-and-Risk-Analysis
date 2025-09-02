@@ -1,82 +1,176 @@
-# --------------------------Weather Forecast API Example using Open-Meteo---------------------
-
 import requests
+import pandas as pd
 
-CITY = "Dehradun"
+# Example coordinates (replace with user input or geocoding result)
+lat, lon = 28.7041, 77.1025   # Delhi
 
-# 1. Get coordinates from Open-Meteo Geocoding API
-geo_url = "https://geocoding-api.open-meteo.com/v1/search"
-geo_params = {
-    "name": CITY,
-    "count": 1,
-    "language": "en",
-    "format": "json"
-}
-geo_resp = requests.get(geo_url, params=geo_params)
-geo_data = geo_resp.json()
-
-if "results" not in geo_data:
-    print("City not found!")
-    exit()
-
-lat = geo_data["results"][0]["latitude"]
-lon = geo_data["results"][0]["longitude"]
-print(f"Coordinates for {CITY}: {lat}, {lon}")
-
-# 2. Get full forecast from Open-Meteo Weather API
 weather_url = "https://api.open-meteo.com/v1/forecast"
 weather_params = {
     "latitude": lat,
     "longitude": lon,
     "daily": [
         "temperature_2m_max", "temperature_2m_min",
-        "apparent_temperature_max", "apparent_temperature_min",
-        "precipitation_sum", "rain_sum", "snowfall_sum",
-        "sunrise", "sunset",
-        "windspeed_10m_max", "windgusts_10m_max",
-        "winddirection_10m_dominant",
-        "shortwave_radiation_sum", "et0_fao_evapotranspiration"
+        "precipitation_sum", "et0_fao_evapotranspiration",
+        "sunrise", "sunset"
     ],
     "hourly": [
-        "temperature_2m", "relative_humidity_2m", "dewpoint_2m",
-        "apparent_temperature", "precipitation", "rain", "snowfall",
-        "cloudcover", "cloudcover_low", "cloudcover_mid", "cloudcover_high",
-        "windspeed_10m", "windgusts_10m", "winddirection_10m",
-        "surface_pressure", "visibility",
-        "shortwave_radiation", "direct_radiation", "diffuse_radiation"
+        "temperature_2m", "relative_humidity_2m",
+        "surface_pressure", "cloudcover",
+        "windspeed_10m", "windgusts_10m",
+        "winddirection_10m"
     ],
     "forecast_days": 14,
     "timezone": "auto"
 }
 
-weather_resp = requests.get(weather_url, params=weather_params)
-weather_data = weather_resp.json()
+# Fetch data
+res = requests.get(weather_url, params=weather_params).json()
 
-# 3. Print daily data
-print("\n--- 14-Day Daily Forecast ---")
-daily = weather_data.get("daily", {})
-for i in range(len(daily["time"])):
-    date = daily["time"][i]
-    tmax = daily["temperature_2m_max"][i]
-    tmin = daily["temperature_2m_min"][i]
-    precip = daily["precipitation_sum"][i]
-    rain = daily["rain_sum"][i]
-    snow = daily["snowfall_sum"][i]
-    wind = daily["windspeed_10m_max"][i]
-    print(f"{date}: Min {tmin}°C, Max {tmax}°C, Precip: {precip} mm, Rain: {rain} mm, Snow: {snow} cm, Wind Max: {wind} km/h")
+# ---- DAILY DATA ----
+daily = pd.DataFrame(res["daily"])
+daily["time"] = pd.to_datetime(daily["time"])
+daily.rename(columns={
+    "time": "Date",
+    "temperature_2m_min": "MinTemp",
+    "temperature_2m_max": "MaxTemp",
+    "precipitation_sum": "Rainfall",
+    "et0_fao_evapotranspiration": "Evaporation"
+}, inplace=True)
 
-# 4. Print first 24 hours of hourly data
-print("\n--- Next 24 Hours (Hourly) ---")
-hourly = weather_data.get("hourly", {})
-for i in range(24):
-    time = hourly["time"][i]
-    temp = hourly["temperature_2m"][i]
-    humidity = hourly["relative_humidity_2m"][i]
-    clouds = hourly["cloudcover"][i]
-    precip = hourly["precipitation"][i]
-    wind = hourly["windspeed_10m"][i]
-    pressure = hourly["surface_pressure"][i]
-    print(f"{time} | Temp: {temp}°C, Humidity: {humidity}%, Clouds: {clouds}%, Precip: {precip} mm, Wind: {wind} km/h, Pressure: {pressure} hPa")
+# ---- HOURLY DATA ----
+hourly = pd.DataFrame(res["hourly"])
+hourly["time"] = pd.to_datetime(hourly["time"])
+
+# Convert to local day & hour
+hourly["Date"] = hourly["time"].dt.date
+hourly["Hour"] = hourly["time"].dt.hour
+
+# Pick closest to 9am and 3pm for each day
+hourly_9am = (
+    hourly.loc[(hourly["Hour"] >= 9) & (hourly["Hour"] < 10)]
+    .copy()
+)
+hourly_3pm = (
+    hourly.loc[(hourly["Hour"] >= 15) & (hourly["Hour"] < 16)]
+    .copy()
+)
+
+# Rename like before
+hourly_9am.rename(columns={
+    "time": "Timestamp",
+    "temperature_2m": "Temp9am",
+    "relative_humidity_2m": "Humidity9am",
+    "surface_pressure": "Pressure9am",
+    "cloudcover": "Cloud9am",
+    "windspeed_10m": "WindSpeed9am",
+    "winddirection_10m": "WindDir9am"
+}, inplace=True)
+
+hourly_3pm.rename(columns={
+    "time": "Timestamp",
+    "temperature_2m": "Temp3pm",
+    "relative_humidity_2m": "Humidity3pm",
+    "surface_pressure": "Pressure3pm",
+    "cloudcover": "Cloud3pm",
+    "windspeed_10m": "WindSpeed3pm",
+    "winddirection_10m": "WindDir3pm"
+}, inplace=True)
+
+# Keep necessary cols only
+hourly_9am = hourly_9am[["Date","Temp9am","Humidity9am","Pressure9am","Cloud9am","WindSpeed9am","WindDir9am"]]
+hourly_3pm = hourly_3pm[["Date","Temp3pm","Humidity3pm","Pressure3pm","Cloud3pm","WindSpeed3pm","WindDir3pm"]]
+
+# Convert Date back to datetime for merging
+hourly_9am["Date"] = pd.to_datetime(hourly_9am["Date"])
+hourly_3pm["Date"] = pd.to_datetime(hourly_3pm["Date"])
+
+# Merge like before
+df = daily.merge(hourly_9am, on="Date").merge(hourly_3pm, on="Date")
+print(df.head())
+print(df.shape)
+# Save to CSV
+df.to_csv("weather_data_delhi.csv", index=False)
+
+
+# --------------------------Weather Forecast API Example using Open-Meteo---------------------
+
+# import requests
+
+# CITY = "Dehradun"
+
+# # 1. Get coordinates from Open-Meteo Geocoding API
+# geo_url = "https://geocoding-api.open-meteo.com/v1/search"
+# geo_params = {
+#     "name": CITY,
+#     "count": 1,
+#     "language": "en",
+#     "format": "json"
+# }
+# geo_resp = requests.get(geo_url, params=geo_params)
+# geo_data = geo_resp.json()
+
+# if "results" not in geo_data:
+#     print("City not found!")
+#     exit()
+
+# lat = geo_data["results"][0]["latitude"]
+# lon = geo_data["results"][0]["longitude"]
+# print(f"Coordinates for {CITY}: {lat}, {lon}")
+
+# # 2. Get full forecast from Open-Meteo Weather API
+# weather_url = "https://api.open-meteo.com/v1/forecast"
+# weather_params = {
+#     "latitude": lat,
+#     "longitude": lon,
+#     "daily": [
+#         "temperature_2m_max", "temperature_2m_min",
+#         "apparent_temperature_max", "apparent_temperature_min",
+#         "precipitation_sum", "rain_sum", "snowfall_sum",
+#         "sunrise", "sunset",
+#         "windspeed_10m_max", "windgusts_10m_max",
+#         "winddirection_10m_dominant",
+#         "shortwave_radiation_sum", "et0_fao_evapotranspiration"
+#     ],
+#     "hourly": [
+#         "temperature_2m", "relative_humidity_2m", "dewpoint_2m",
+#         "apparent_temperature", "precipitation", "rain", "snowfall",
+#         "cloudcover", "cloudcover_low", "cloudcover_mid", "cloudcover_high",
+#         "windspeed_10m", "windgusts_10m", "winddirection_10m",
+#         "surface_pressure", "visibility",
+#         "shortwave_radiation", "direct_radiation", "diffuse_radiation"
+#     ],
+#     "forecast_days": 14,
+#     "timezone": "auto"
+# }
+
+# weather_resp = requests.get(weather_url, params=weather_params)
+# weather_data = weather_resp.json()
+
+# # 3. Print daily data
+# print("\n--- 14-Day Daily Forecast ---")
+# daily = weather_data.get("daily", {})
+# for i in range(len(daily["time"])):
+#     date = daily["time"][i]
+#     tmax = daily["temperature_2m_max"][i]
+#     tmin = daily["temperature_2m_min"][i]
+#     precip = daily["precipitation_sum"][i]
+#     rain = daily["rain_sum"][i]
+#     snow = daily["snowfall_sum"][i]
+#     wind = daily["windspeed_10m_max"][i]
+#     print(f"{date}: Min {tmin}°C, Max {tmax}°C, Precip: {precip} mm, Rain: {rain} mm, Snow: {snow} cm, Wind Max: {wind} km/h")
+
+# # 4. Print first 24 hours of hourly data
+# print("\n--- Next 24 Hours (Hourly) ---")
+# hourly = weather_data.get("hourly", {})
+# for i in range(24):
+#     time = hourly["time"][i]
+#     temp = hourly["temperature_2m"][i]
+#     humidity = hourly["relative_humidity_2m"][i]
+#     clouds = hourly["cloudcover"][i]
+#     precip = hourly["precipitation"][i]
+#     wind = hourly["windspeed_10m"][i]
+#     pressure = hourly["surface_pressure"][i]
+#     print(f"{time} | Temp: {temp}°C, Humidity: {humidity}%, Clouds: {clouds}%, Precip: {precip} mm, Wind: {wind} km/h, Pressure: {pressure} hPa")
 
 # --------------------------Open-Meteo Historical Weather Data Example---------------------------
 
