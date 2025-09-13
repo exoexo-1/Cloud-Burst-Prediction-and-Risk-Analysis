@@ -1,0 +1,7 @@
+## Critical Risk Designation
+
+Rudraprayag district holds the distinction of being classified by the Indian Space Research Organization as the most landslide-prone district in India, a designation that reflects its extraordinary combination of geological instability, extreme topography, and climatic vulnerability. With a vulnerability index of 9.2 out of 10 on standardized risk assessment scales, the district represents the maximum expression of natural hazard risk found anywhere in the Indian Himalayas.
+
+Covering 1,984 square kilometers of mountainous terrain, Rudraprayag occupies the strategically critical position at the triple confluence zone where the Alaknanda, Mandakini, and Ganges river systems meet. This confluence location creates unique hydrological conditions where flood waves from multiple watersheds can combine and amplify, creating the potential for catastrophic downstream impacts that exceed the sum of individual tributary contributions.
+
+The district's reputation for extreme vulnerability stems not just from its physical characteristics but from its demonstrated history of catastrophic events, most notably the 2013 Kedarnath disaster that established new benchmarks for understanding the destructive potential of cloudburst-induced cascading hazards. The lessons learned from this event continue to influence disaster risk reduction strategies throughout the Himalayan region.

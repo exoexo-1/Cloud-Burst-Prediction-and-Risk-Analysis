@@ -1,0 +1,7 @@
+## Extreme Terrain Classification
+
+Chamoli district encompasses 7,520 square kilometers of some of the most spectacular and hazardous mountain terrain in the world, with elevations ranging from 800 meters above sea level at Karnaprayag to the towering summit of Nanda Devi at 7,817 meters. The district's defining characteristic is its extensive glaciation, with 2,850 square kilometers or 38% of the total area covered by glaciers and permanent snow. This massive glacial coverage creates unique meteorological conditions that significantly influence cloudburst formation and behavior.
+
+The district contains 47 peaks exceeding 6,000 meters in elevation, creating a landscape of extraordinary vertical relief that generates complex atmospheric circulation patterns. These high peaks act as barriers to atmospheric flow, creating areas of enhanced lifting on windward slopes and areas of descent and warming on leeward slopes. The interaction between these topographic effects and monsoon circulation patterns creates ideal conditions for the formation of intense convective systems.
+
+Valley systems throughout Chamoli are characterized by their extreme depth and narrow width, with most inhabited areas confined to valley floors that are surrounded by near-vertical walls rising thousands of meters. This topographic configuration creates natural amplification chambers for precipitation, where orographic lifting effects are maximized and where even moderate atmospheric disturbances can produce extreme precipitation rates.
