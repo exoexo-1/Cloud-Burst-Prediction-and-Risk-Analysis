@@ -1,0 +1,7 @@
+##  Advanced Risk Zonation
+
+Risk zonation within Chamoli district reflects the complex interaction between glacial hazards, topographic vulnerability, and population distribution. Extremely high-risk areas include the Alaknanda valley between Badrinath and Joshimath, where narrow valley geometry, extensive glaciation, and concentrated infrastructure create maximum vulnerability conditions. The Dhauliganga valley, site of the 2021 disaster, remains under extremely high risk due to continued glacial instability and the potential for additional rock-ice avalanches.
+
+The Pindar valley represents another extremely high-risk area where glacier retreat has created unstable moraine dams and where steep valley walls are susceptible to large landslides that could create temporary lakes and subsequent outburst floods. High-risk areas include the Mandakini valley, where the combination of glacial influences and monsoon precipitation creates conditions favorable for extreme flood events, and the Saraswati valley, where narrow geometry and steep gradients can rapidly concentrate flood flows.
+
+Moderate-risk areas include lower elevation settlements that are far enough from direct glacial influences to avoid the most extreme hazards but remain vulnerable to downstream effects from events occurring in higher elevation areas. Confluence zones throughout the district represent particular areas of vulnerability where flood waves from multiple tributaries can combine to create larger and more destructive events.
