@@ -28,3 +28,9 @@ openai
 # Extra Utilities
 python-dotenv
 joblib
+
+
+rasterio 
+geopandas 
+shapely 
+osmnx

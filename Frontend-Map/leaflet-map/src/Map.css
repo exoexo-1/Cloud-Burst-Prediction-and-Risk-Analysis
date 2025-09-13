@@ -1,0 +1,28 @@
+/* Style for the radius control menu */
+.radius-control-container {
+  position: absolute;
+  top: 90px; /* Adjust as needed to avoid overlapping the layer control */
+  right: 10px;
+  z-index: 1000; /* Ensures it's on top of the map */
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+  width: 180px;
+}
+
+.radius-control-container h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.radius-control-container label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.radius-control-container input {
+  width: 100%;
+  box-sizing: border-box; /* Ensures padding doesn't affect the width */
+  padding: 5px;
+}
