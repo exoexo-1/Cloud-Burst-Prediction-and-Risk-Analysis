@@ -1,0 +1,8 @@
+## Geological Instability
+
+
+The geological foundation of Rudraprayag district represents one of the most unstable and hazardous combinations of rock types, structural features, and weathering conditions found anywhere in the Himalayas. The dominant rock formations belong to the Garhwal Group, consisting primarily of highly fractured and weathered metamorphic rocks that have been subjected to intense tectonic stress over geological time scales.
+
+Multiple active fault systems traverse the district, creating planes of weakness that predispose slopes to failure during extreme precipitation events or seismic activity. These thrust zones represent fundamental structural discontinuities in the rock mass that can act as failure planes when water pressure builds up during intense precipitation events. The weathering grade throughout much of the district reaches levels IV and V on standard engineering classification systems, indicating rock that is completely weathered and has lost most of its structural integrity.
+
+Landslide statistics for the district are staggering, with 2,847 active landslides mapped and monitored by various agencies. This represents one of the highest concentrations of active mass wasting features found anywhere in the world. The district experiences 50 to 80 new landslide events annually under normal conditions, with this number increasing dramatically during years with extreme precipitation events. Approximately 47% of the district's total area is classified as being directly affected by landslide activity, meaning that nearly half of the district's territory is in a state of ongoing geomorphological instability.

@@ -1,0 +1,8 @@
+## Predictive Model Parameters
+
+The development of predictive models for extreme events in Rudraprayag district has been informed by detailed analysis of the 2013 Kedarnath disaster and subsequent research into the physical processes that control cascading hazard development. Critical rainfall thresholds have been established through statistical analysis of historical events and process-based modeling of slope stability conditions.
+
+Landslide initiation typically occurs when rainfall intensities reach 50 millimeters per hour sustained for 2 hours, representing conditions where infiltration rates exceed soil drainage capacity and pore water pressures begin to approach levels that can trigger slope failure. Mass wasting events, involving larger volumes of material and more significant geomorphological impacts, typically require rainfall intensities of 100 millimeters per hour sustained for 1 hour. The catastrophic failure threshold, representing conditions where cascading hazards can develop, appears to be reached when rainfall intensities exceed 200 millimeters per hour.
+
+Antecedent conditions play a crucial role in determining the susceptibility of slopes to failure during extreme precipitation events. Soil moisture levels exceeding 70% create high-risk conditions where relatively modest precipitation can trigger landslide activity. Seven-day cumulative rainfall totals exceeding 150 millimeters represent critical threshold conditions where slope stability is compromised even before extreme precipitation events occur. Groundwater table rise exceeding 2 meters, which can occur during prolonged precipitation periods, represents an instability trigger where slope failure can occur with minimal additional precipitation input.
+

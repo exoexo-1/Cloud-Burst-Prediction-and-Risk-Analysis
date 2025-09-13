@@ -1,0 +1,8 @@
+## Multi-Hazard Cascade Mechanisms
+
+The 2013 Kedarnath event demonstrated the complex multi-hazard cascade mechanisms that characterize extreme events in the Rudraprayag district. The primary trigger was the extreme cloudburst precipitation that provided the water and energy necessary to initiate mass wasting processes throughout the affected watersheds. Secondary effects included landslide dam formation, where slope failures created temporary barriers across stream channels, forming ephemeral lakes that stored water and debris until they breached catastrophically.
+
+Dam breach floods, representing tertiary impacts, occurred when these temporary barriers were overtopped or structurally failed, releasing stored water and debris in sudden pulses that created flood waves far more destructive than would have resulted from the original precipitation alone. Channel avulsion and widening occurred as these flood waves scoured new pathways and expanded existing channels beyond their normal boundaries, creating permanent changes to the hydrological landscape.
+
+Tertiary impacts extended far beyond the immediate disaster zone and persisted for years after the original event. Sediment choking of downstream channels reduced their capacity and increased flood risk in areas that had not been directly affected by the original cloudburst. Infrastructure destruction was comprehensive, affecting not only buildings and roads in the immediate impact area but also creating cascading effects on transportation, communication, and economic systems throughout the region. Ecosystem disruption occurred across multiple trophic levels and habitat types, with recovery processes continuing more than a decade after the original event.
+
