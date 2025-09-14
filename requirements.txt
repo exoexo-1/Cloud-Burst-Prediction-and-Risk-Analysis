@@ -2,6 +2,7 @@
 pandas
 numpy
 scipy
+python-dotenv
 
 # Visualization
 matplotlib
@@ -16,6 +17,7 @@ tensorflow
 torch
 torchvision
 torchaudio
+joblib
 
 # Fuzzy Logic
 scikit-fuzzy
@@ -26,10 +28,16 @@ openai
 
 
 # Extra Utilities
+ipywidgets
 python-dotenv
-joblib
 
-
+gradio 
+langchain
+langchain-community
+langchain-openai
+langchain-chroma
+chromadb
+nbformat>=4.2.0
 rasterio 
 geopandas 
 shapely 
