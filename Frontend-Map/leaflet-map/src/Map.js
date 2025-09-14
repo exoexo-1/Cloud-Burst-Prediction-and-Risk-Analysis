@@ -96,7 +96,7 @@ const Map = ({ onNavigateHome }) => {
               {/* This Tooltip is always visible */}
               <Tooltip permanent direction="right" offset={[10, 0]} className="custom-tooltip">
                 <strong>Place Name:</strong> {placeName} <br />
-                <strong>FVI:</strong> 0.4 (dummy)
+                <strong>FLood Vulnerability Index:</strong> 0.4 (dummy)
               </Tooltip>
             </Marker>
             <Circle center={position} pathOptions={circleOptions} radius={radius} />
