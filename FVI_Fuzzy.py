@@ -1,5 +1,4 @@
 """
-fvi_analyzer.py - FIXED VERSION
 
 Enhanced Flood Vulnerability Index (FVI) analyzer for Uttarakhand (and arbitrary lat/lon).
 Fetches data from Open-Meteo, Open-Elevation, and OSM (via osmnx) and computes FVI using fuzzy logic.
@@ -31,7 +30,7 @@ UTTARAKHAND_DISTRICTS = {
     "rishikesh": {"lat": 30.0869, "lon": 78.2676, "pop_density": 400, "urbanization": 45, "dev_pressure": 55},
     "almora": {"lat": 29.5971, "lon": 79.6593, "pop_density": 140, "urbanization": 20, "dev_pressure": 30},
     "uttarkashi": {"lat": 31.0916, "lon": 78.4547, "pop_density": 85, "urbanization": 12, "dev_pressure": 20},
-    "tehri": {"lat": 30.3271, "lon": 78.0021, "pop_density": 160, "urbanization": 22, "dev_pressure": 35},
+    "tehri": {"lat": 30.3271, "lon": 78.0021, "pop_density": 160, "urbanization": 22, "dev_pressure": 35}
 }
 
 def district_to_coords(name: str) -> Optional[Tuple[float, float, Dict[str, float]]]:

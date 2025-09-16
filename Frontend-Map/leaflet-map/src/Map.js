@@ -13,7 +13,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-
 function LocationFinder({ setPosition }) {
   useMapEvents({
     click(e) {
@@ -29,14 +28,15 @@ const Map = ({ onNavigateHome }) => {
   const [position, setPosition] = useState(null);
   const [radius, setRadius] = useState(1000);
   const [placeName, setPlaceName] = useState('');
+  const [fvi, setFvi] = useState(null);
 
   const circleOptions = { color: 'red', fillColor: 'red' };
 
+  // Reverse geocode for place name
   useEffect(() => {
     if (position) {
       setPlaceName("Fetching name...");
       const { lat, lng } = position;
-      // Nominatim API
       fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
         .then(response => response.json())
         .then(data => {
@@ -49,6 +49,24 @@ const Map = ({ onNavigateHome }) => {
         .catch(error => {
           console.error("Error fetching place name:", error);
           setPlaceName("Could not fetch name");
+        });
+    }
+  }, [position]);
+
+  // Fetch FVI from FastAPI
+  useEffect(() => {
+    if (position) {
+      setFvi(null); // reset while fetching
+      const { lat, lng } = position;
+
+      fetch(`http://127.0.0.1:8000/fvi?lat=${lat}&lon=${lng}`)
+        .then(res => res.json())
+        .then(data => {
+          setFvi(data);
+        })
+        .catch(err => {
+          console.error("Error fetching FVI:", err);
+          setFvi({ fvi_score: "N/A", key_factors: ["Error fetching data"] });
         });
     }
   }, [position]);
@@ -93,10 +111,18 @@ const Map = ({ onNavigateHome }) => {
         {position && (
           <>
             <Marker position={position}>
-              {/* This Tooltip is always visible */}
               <Tooltip permanent direction="right" offset={[10, 0]} className="custom-tooltip">
                 <strong>Place Name:</strong> {placeName} <br />
-                <strong>FLood Vulnerability Index:</strong> 0.4 (dummy)
+                <strong>FVI Score:</strong>{" "}
+                {fvi ? `${fvi.fvi_score}/100` : "Loading..."} <br />
+                <strong>Key Factors:</strong>
+                <ul style={{ margin: "5px 0", paddingLeft: "15px" }}>
+                  {fvi && fvi.key_factors
+                    ? fvi.key_factors.map((factor, idx) => (
+                        <li key={idx}>{factor}</li>
+                      ))
+                    : <li>Loading...</li>}
+                </ul>
               </Tooltip>
             </Marker>
             <Circle center={position} pathOptions={circleOptions} radius={radius} />
