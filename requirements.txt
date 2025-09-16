@@ -22,10 +22,12 @@ joblib
 # Fuzzy Logic
 scikit-fuzzy
 
+
 # APIs & Requests
 requests
 openai
-
+fastapi
+uvicorn
 
 # Extra Utilities
 ipywidgets
