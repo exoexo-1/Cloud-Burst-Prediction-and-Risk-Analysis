@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: cloudburst-api
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn Fuzzy_api:app --host 0.0.0.0 --port $PORT
-    rootDir: APIs
-    plan: free
