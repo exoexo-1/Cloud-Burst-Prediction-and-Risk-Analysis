@@ -1,32 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './FVIDetailsPanel.css';
 
 const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
+  const [analysis, setAnalysis] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  // Fetch LLM analysis when FVI data changes
+  useEffect(() => {
+    if (isOpen && fvi && position) {
+      setLoading(true);
+      fetch(`https://fuzzy-api-3e87.onrender.com/analysis?place_name=${placeName}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(fvi), // Send FVI data to backend
+      })
+        .then(res => res.json())
+        .then(data => {
+          setAnalysis(data.report?.analysis || data.report);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error("Error fetching analysis:", err);
+          setAnalysis("Error fetching analysis report.");
+          setLoading(false);
+        });
+    }
+  }, [isOpen, fvi, position, placeName]);
+
   return (
     <div className={`fvi-details-panel ${isOpen ? 'open' : ''}`}>
       <div className="fvi-panel-header">
-        <h3>Location Report</h3>
+        <h3>FVI Details</h3>
         <button className="close-panel-btn" onClick={onClose}>
           ×
         </button>
       </div>
-      
+
       <div className="fvi-panel-content">
         {position && fvi ? (
           <>
+            {/* Location Info */}
             <div className="location-info">
               <h4>📍 Location Information</h4>
               <div className="info-card">
                 <p><strong>Place:</strong> {placeName}</p>
                 <p><strong>Coordinates:</strong> {position.lat.toFixed(4)}, {position.lng.toFixed(4)}</p>
                 <p><strong>FVI Score:</strong> <span className="fvi-score">{fvi.fvi_score}/100</span></p>
+                <p><strong>Risk Level:</strong> {fvi.risk_level}</p>
               </div>
             </div>
 
+            {/* Key Factors */}
             <div className="key-factors">
               <h4>🔑 Key Factors</h4>
               <div className="factors-list">
-                {fvi.key_factors.map((factor, idx) => (
+                {fvi.key_factors && fvi.key_factors.map((factor, idx) => (
                   <div key={idx} className="factor-item">
                     • {factor}
                   </div>
@@ -34,75 +64,17 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
               </div>
             </div>
 
+            {/* LLM Analysis */}
             <div className="detailed-analysis">
-              <h4>📊 Detailed Analysis</h4>
+              <h4>📊 Risk Analysis Report</h4>
               <div className="analysis-card">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
-                
-                <div className="metric-row">
-                  <div className="metric">
-                    <span className="metric-label">Risk Level:</span>
-                    <span className="metric-value high">High</span>
-                  </div>
-                  <div className="metric">
-                    <span className="metric-label">Confidence:</span>
-                    <span className="metric-value medium">85%</span>
-                  </div>
-                </div>
-
-                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-              </div>
-            </div>
-
-            <div className="environmental-data">
-              <h4>🌍 Environmental Data</h4>
-              <div className="env-grid">
-                <div className="env-item">
-                  <span className="env-label">Temperature:</span>
-                  <span className="env-value">24°C</span>
-                </div>
-                <div className="env-item">
-                  <span className="env-label">Humidity:</span>
-                  <span className="env-value">65%</span>
-                </div>
-                <div className="env-item">
-                  <span className="env-label">Wind Speed:</span>
-                  <span className="env-value">12 km/h</span>
-                </div>
-                <div className="env-item">
-                  <span className="env-label">Precipitation:</span>
-                  <span className="env-value">0.2mm</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="recommendations">
-              <h4>💡 Recommendations</h4>
-              <div className="recommendations-list">
-                <div className="recommendation-item">
-                  {/* <span className="rec-icon">🔥</span> */}
-                  <p>Monitor fire weather conditions closely during dry periods</p>
-                </div>
-                <div className="recommendation-item">
-                  {/* <span className="rec-icon">🌊</span> */}
-                  <p>Implement water conservation measures</p>
-                </div>
-                <div className="recommendation-item">
-                  {/* <span className="rec-icon">🏠</span> */}
-                  <p>Consider vegetation management around structures</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="historical-data">
-              <h4>📈 Historical Trends</h4>
-              <div className="history-card">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel sagittis lorem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-                <div className="trend-indicators">
-                  {/* <span className="trend-item">📈 Increasing risk trend</span>
-                  <span className="trend-item">⚠️ Seasonal variations detected</span>
-                  <span className="trend-item">🎯 Pattern consistency: 78%</span> */}
-                </div>
+                {loading ? (
+                  <p>⏳ Generating AI analysis...</p>
+                ) : (
+                  <pre style={{ whiteSpace: "pre-wrap", fontSize: "14px" }}>
+                    {analysis}
+                  </pre>
+                )}
               </div>
             </div>
           </>
