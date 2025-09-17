@@ -58,6 +58,33 @@
   box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
 }
 
+/* New styles for the button inside tooltip */
+.fvi-details-btn-tooltip {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 4px rgba(0, 123, 255, 0.3);
+  white-space: nowrap;
+  min-width: 70px;
+}
+
+.fvi-details-btn-tooltip:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.4);
+}
+
+.fvi-details-btn-tooltip:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 123, 255, 0.3);
+}
 
 .radius-control-container {
   position: absolute;
@@ -89,6 +116,59 @@
   padding: 5px;
 }
 
+/* FVI Button Container - positioned below radius control */
+.fvi-button-container {
+  position: absolute;
+  top: 220px; /* Positioned below the radius control container */
+  right: 10px;
+  z-index: 1000;
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+  width: 180px;
+}
+
+.fvi-details-section {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.fvi-details-btn {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
+.fvi-details-btn:hover:not(.disabled) {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
+}
+
+.fvi-details-btn.disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
+}
+
+.fvi-details-btn:active:not(.disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+}
+
 
 @media (max-width: 768px) {
     .fvi-details-btn-marker {
@@ -97,8 +177,25 @@
         min-width: 80px;
     }
     
+    .fvi-details-btn-tooltip {
+        padding: 3px 6px;
+        font-size: 0.7rem;
+        min-width: 60px;
+    }
+    
+    .fvi-details-btn {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
+    
     .radius-control-container {
         top: 80px;
+        right: 15px;
+        width: 160px;
+    }
+    
+    .fvi-button-container {
+        top: 210px; /* Adjusted for mobile */
         right: 15px;
         width: 160px;
     }
