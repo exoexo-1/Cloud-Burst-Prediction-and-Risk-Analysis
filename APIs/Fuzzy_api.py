@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from APIs.FVI_Fuzzy import FloodVulnerabilityAnalyzer, district_to_coords
+from FVI_Fuzzy import FloodVulnerabilityAnalyzer, district_to_coords
 
 app = FastAPI()
 
