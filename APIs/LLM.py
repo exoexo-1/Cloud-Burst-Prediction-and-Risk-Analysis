@@ -55,11 +55,11 @@ class RAGService:
         except Exception as e:
             return f"Error retrieving context: {str(e)}"
         
-rag = RAGService(db_path="vector_db")
-district = "Chamoli"
-result = rag.get_context(district, k=2)
+# rag = RAGService(db_path="vector_db")
+# district = "Chamoli"
+# result = rag.get_context(district, k=2)
 
-print(result)
+# print(result)
 
 
 class RiskAnalysisLLM:
@@ -69,22 +69,39 @@ class RiskAnalysisLLM:
 
     def create_system_prompt(self):
         return """
-        You are an expert disaster risk advisor specializing in cloudburst and flood events in Uttarakhand, India.
-        You will analyze weather and terrain conditions along with relevant historical and geographical context.
-        
-        Use the provided context from the knowledge base and FVI data to inform your risk assessment.
-        Reference specific historical events, geographical characteristics, and past patterns when relevant.
-        
-        Your response must always include:
-        1. Flood Risk Level → Low / Moderate / High / Severe
-        2. Cloudburst Probability → Yes / No with reasoning
-        3. Key Factors → List the main conditions driving the assessment
-        4. Historical/Geographical Context → Reference relevant information from the knowledge base
-        5. Recommendations → Clear and actionable steps for residents and authorities
-        6. Future prediction report
-        
-        Keep the language simple and practical so that even non-technical people can understand.
-        Format your response in clear sections with appropriate emojis for readability.
+        ### 🌧️ Flood and Cloudburst Risk Assessment Report
+
+        #### **1. Flood Risk Level:** 
+        [Low / Moderate / High / Severe]
+
+        #### **2. Cloudburst Probability:** 
+        [Yes / No]  
+        *Reasoning:* [Provide clear explanation based on current meteorological conditions, terrain analysis, and risk factors]
+
+        #### **3. Key Factors:** 
+        - **[Factor 1]:** [Brief explanation]
+        - **[Factor 2]:** [Brief explanation]
+        - **[Factor 3]:** [Brief explanation]
+        - **[Factor 4]:** [Brief explanation]
+
+        #### **4. Historical/Geographical Context:** 
+        [Reference specific historical events, geographical characteristics, regional patterns, and past incidents relevant to the area. Include details about terrain, elevation, drainage patterns, and vulnerability factors specific to the location.]
+
+        #### **5. Recommendations:** 
+        **For Residents:**
+        - [Actionable step 1]
+        - [Actionable step 2] 
+        - [Actionable step 3]
+
+        **For Authorities:**
+        - [Actionable step 1]
+        - [Actionable step 2]
+        - [Actionable step 3]
+
+        #### **6. Future Prediction Report:**
+        [Provide outlook for next 24-72 hours including expected weather patterns, changing risk factors, monitoring recommendations, and key indicators to watch for escalating conditions.]
+
+        Note: Ensure the report is clear, detailed, and actionable for both residents and authorities.
         """
 
     def generate_risk_analysis(self, fvi_data: dict, rag_context: str):
@@ -166,35 +183,35 @@ class RiskAnalysisLLM:
             }
         
 
-fvi_data = {
-    "location": {"latitude": 29.9457, "longitude": 78.1642},
-    "fvi_score": 62.5,
-    "risk_level": "Moderate",
-    "inputs": {
-        "weather": {
-            "current_rainfall": 6.2,
-            "weekly_rainfall": 22.3,
-            "soil_moisture": 0.25,
-            "humidity": 78,
-            "precipitation_probability": 65
-        },
-        "terrain": {"elevation": 1800, "slope": 25},
-        "hydrology": {"distance_to_water": 200, "drainage_density": 0.45},
-        "socioeconomic": {
-            "population_density": 320,
-            "urbanization_level": 45,
-            "imperviousness": 30,
-            "district": "Chamoli"
-        }
-    },
-    "key_factors": ["High slope", "Moderate rainfall", "Medium population density"]
-}
+# fvi_data = {
+#     "location": {"latitude": 29.9457, "longitude": 78.1642},
+#     "fvi_score": 62.5,
+#     "risk_level": "Moderate",
+#     "inputs": {
+#         "weather": {
+#             "current_rainfall": 6.2,
+#             "weekly_rainfall": 22.3,
+#             "soil_moisture": 0.25,
+#             "humidity": 78,
+#             "precipitation_probability": 65
+#         },
+#         "terrain": {"elevation": 1800, "slope": 25},
+#         "hydrology": {"distance_to_water": 200, "drainage_density": 0.45},
+#         "socioeconomic": {
+#             "population_density": 320,
+#             "urbanization_level": 45,
+#             "imperviousness": 30,
+#             "district": "Chamoli"
+#         }
+#     },
+#     "key_factors": ["High slope", "Moderate rainfall", "Medium population density"]
+# }
 
-# Get RAG context
-rag_service = RAGService()
-rag_context = rag_service.get_context("Chamoli")
+# # # Get RAG context
+# # rag_service = RAGService()
+# # rag_context = rag_service.get_context("Chamoli")
 
-# Generate analysis
-llm = RiskAnalysisLLM()
-result = llm.generate_risk_analysis(fvi_data, rag_context)
-print(result["analysis"])
+# # # Generate analysis
+# # llm = RiskAnalysisLLM()
+# # result = llm.generate_risk_analysis(fvi_data, rag_context)
+# # print(result["analysis"])

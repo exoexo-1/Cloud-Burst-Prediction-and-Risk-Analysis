@@ -1,3 +1,5 @@
+//Frontend-Map\leaflet-map\src\Map.js
+
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, LayersControl, Marker, Circle, Tooltip, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -133,7 +135,7 @@ const Map = ({ onNavigateHome }) => {
             <Marker position={position}>
               <Tooltip permanent direction="right" offset={[10, 0]} className="custom-tooltip">
                 <strong>Place Name:</strong> {placeName} <br />
-                <strong>FVI Score:</strong>{" "}
+                <strong>Flood vulnerability index:</strong>{" "}
                 {fvi ? `${fvi.fvi_score}/100` : "Loading..."} <br />
                 <strong>Key Factors:</strong>
                 <ul style={{ margin: "5px 0", paddingLeft: "15px" }}>
