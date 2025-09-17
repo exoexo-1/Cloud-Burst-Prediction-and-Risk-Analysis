@@ -1,8 +1,9 @@
 # APIs/Apis.py
 from fastapi import FastAPI, Query, Body
 from fastapi.middleware.cors import CORSMiddleware
-from APIs.FVI_Fuzzy import FloodVulnerabilityAnalyzer, district_to_coords
-from APIs.LLM import RAGService, RiskAnalysisLLM
+from .FVI_Fuzzy import FloodVulnerabilityAnalyzer, district_to_coords
+from .LLM import RAGService, RiskAnalysisLLM
+
 
 app = FastAPI()
 

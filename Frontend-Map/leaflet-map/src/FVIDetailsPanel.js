@@ -75,9 +75,15 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
           continue;
         }
         
+        // Skip markdown headers
+        if (line.startsWith('###') || line.startsWith('##') || line.startsWith('#')) continue;
+        
         // Collect list items or paragraph content
         if (line.startsWith('- ') || line.startsWith('* ') || line.startsWith('• ')) {
           content.push(line.substring(2).trim());
+        } else if (line.startsWith('**') && line.endsWith('**')) {
+          // Handle bold text
+          content.push(line.replace(/\*\*/g, ''));
         } else {
           content.push(line);
         }
@@ -235,17 +241,17 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
                       {parsedAnalysis.cloudburstProb && (
                         <div className="risk-card cloudburst-risk">
                           <div className="risk-icon">
-                            {parsedAnalysis.cloudburstProb.value === 'Yes' ? '⛈️' : '🌤️'}
+                            {parsedAnalysis.cloudburstProb.value && parsedAnalysis.cloudburstProb.value.toLowerCase().includes('yes') ? '⛈️' : '🌤️'}
                           </div>
                           <div className="risk-content">
                             <span className="risk-label">Cloudburst Probability</span>
                             <span 
                               className="risk-value"
                               style={{ 
-                                color: parsedAnalysis.cloudburstProb.value === 'Yes' ? '#dc3545' : '#28a745' 
+                                color: parsedAnalysis.cloudburstProb.value && parsedAnalysis.cloudburstProb.value.toLowerCase().includes('yes') ? '#dc3545' : '#28a745' 
                               }}
                             >
-                              {parsedAnalysis.cloudburstProb.value}
+                              {parsedAnalysis.cloudburstProb.value || 'Unknown'}
                             </span>
                           </div>
                         </div>
@@ -269,7 +275,7 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
                       {factors.map((factor, idx) => (
                         <div key={idx} className="factor-card">
                           <span className="factor-bullet">•</span>
-                          <span className="factor-text">{factor}</span>
+                          <span className="factor-text">{factor.replace(/\*\*/g, '')}</span>
                         </div>
                       ))}
                     </div>
@@ -306,7 +312,7 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
                               {isForResidents ? '🏠' : isForAuthorities ? '🏛️' : '📋'}
                             </div>
                             <div className="rec-content">
-                              <p>{rec}</p>
+                              <p>{rec.replace(/\*\*/g, '')}</p>
                             </div>
                           </div>
                         );
