@@ -1,13 +1,46 @@
-fastapi
-uvicorn
-requests
+# Core data handling
+pandas
 numpy
 scipy
-shapely
-geopandas
-osmnx
+python-dotenv
+
+# Visualization
+# matplotlib
+# seaborn
+# plotly
+
+# Machine Learning & Deep Learning
+# scikit-learn
+# xgboost
+# lightgbm
+# tensorflow
+# torch
+# torchvision
+# torchaudio
+# joblib
+
+# Fuzzy Logic
 scikit-fuzzy
-langchain_openai
-langchain_chroma
-dotenv
-os
+
+
+# APIs & Requests
+requests
+openai
+fastapi
+uvicorn
+
+# Extra Utilities
+ipywidgets
+python-dotenv
+
+gradio 
+langchain
+langchain-community
+langchain-openai
+langchain-chroma
+chromadb
+nbformat>=4.2.0
+rasterio 
+geopandas 
+shapely 
+osmnx

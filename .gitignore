@@ -5,4 +5,3 @@ ipynb_checkpoints/
 *.pyc
 *.db
 cache/
-vector_db/
