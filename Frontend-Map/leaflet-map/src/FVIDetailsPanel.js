@@ -113,7 +113,7 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
         fvi_data: fvi
       };
 
-      fetch(`https://fuzzy-api-3e87.onrender.com/analysis`, {
+      fetch(`https://cloud-burst-prediction-and-risk-analysis-69by.onrender.com/analysis`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
