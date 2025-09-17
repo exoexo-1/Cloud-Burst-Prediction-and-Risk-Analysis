@@ -7,3 +7,7 @@ shapely
 geopandas
 osmnx
 scikit-fuzzy
+langchain_openai
+langchain_chroma
+dotenv
+os
