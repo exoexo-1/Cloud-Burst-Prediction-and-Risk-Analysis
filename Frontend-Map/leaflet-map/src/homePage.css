@@ -1,14 +1,21 @@
 .homepage-container {
+  position: relative; 
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  background-color: #121212; /* Dark background */
+  background-color: #121212;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
   text-align: center;
+  overflow: hidden;
 }
 
+
+.homepage-header, .main-content {
+  position: relative;
+  z-index: 1;
+}
 
 .homepage-header {
   display: flex;
@@ -16,19 +23,16 @@
   align-items: center;
   padding: 20px 40px;
   background: linear-gradient(180deg, rgba(40, 40, 40, 0.95) 0%, transparent 100%);
-  /* border-bottom: 1px solid rgba(51, 51, 51, 0.7); */
 }
 
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #ffeb37;
 }
 
 .register-btn {
-  /* background-color: #007bff; */
-  background-color: #ffeb37;
-  color: black;
+  background-color: #007bff;
+  color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -41,7 +45,7 @@
   background-color: #0056b3;
 }
 
-
+/* Main content styling */
 .main-content {
   flex-grow: 1;
   display: flex;
@@ -56,7 +60,7 @@
   font-weight: 700;
   margin-bottom: 10px;
   letter-spacing: -2px;
-  color: #ffeb37;
+  color: #00d4ff;
 }
 
 .subtitle {
@@ -66,9 +70,8 @@
 }
 
 .map-btn {
-  /* background: linear-gradient(90deg, #007bff, #00d4ff); */
-  background: linear-gradient(90deg, #ffeb37, #fff599);
-  color: black;
+  background: linear-gradient(90deg, #007bff, #00d4ff);
+  color: white;
   border: none;
   padding: 15px 30px;
   border-radius: 50px;
@@ -76,7 +79,7 @@
   font-weight: bold;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 15px rgba(229, 255, 0, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
 }
 
 .map-btn:hover {

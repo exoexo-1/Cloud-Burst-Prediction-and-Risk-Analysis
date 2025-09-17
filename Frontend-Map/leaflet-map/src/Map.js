@@ -53,14 +53,22 @@
 //     }
 //   }, [position]);
 
+<<<<<<< HEAD
+//   // Fetch FVI from FastAPI
+=======
 
 // // Fetch FVI from FastAPI (Render backend)
+>>>>>>> 1cf254656f5773ccf0284f003024385bbda8c1c1
 //   useEffect(() => {
 //     if (position) {
 //       setFvi(null); // reset while fetching
 //       const { lat, lng } = position;
 
+<<<<<<< HEAD
+//       fetch(`http://127.0.0.1:8000/fvi?lat=${lat}&lon=${lng}`)
+=======
 //       fetch(`https://fuzzy-api-3e87.onrender.com/fvi?lat=${lat}&lon=${lng}`)
+>>>>>>> 1cf254656f5773ccf0284f003024385bbda8c1c1
 //         .then(res => res.json())
 //         .then(data => {
 //           setFvi(data);
@@ -72,7 +80,10 @@
 //     }
 //   }, [position]);
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 1cf254656f5773ccf0284f003024385bbda8c1c1
 //   return (
 //     <div className="map-wrapper">
 //       <button className="back-to-home-btn" onClick={onNavigateHome}>
@@ -140,7 +151,10 @@
 
 
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 1cf254656f5773ccf0284f003024385bbda8c1c1
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, LayersControl, Marker, Circle, Tooltip, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';

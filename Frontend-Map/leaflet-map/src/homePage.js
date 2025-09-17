@@ -1,9 +1,13 @@
 import React from 'react';
 import './homePage.css';
+import RainyScene from './rainyScene';
+
 
 const HomePage = ({ onNavigateToMap }) => {
   return (
     <div className="homepage-container">
+      <RainyScene />
+
       <header className="homepage-header">
         <div className="logo">Hydroprognosis</div>
         <button className="register-btn">Register</button>
