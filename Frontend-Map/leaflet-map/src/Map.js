@@ -53,14 +53,14 @@ const Map = ({ onNavigateHome }) => {
     }
   }, [position]);
 
-  // Fetch FVI from FastAPI
+
+// Fetch FVI from FastAPI (Render backend)
   useEffect(() => {
     if (position) {
       setFvi(null); // reset while fetching
       const { lat, lng } = position;
 
-      fetch(`/api/fvi?lat=${lat}&lon=${lng}`)
-
+      fetch(`https://fuzzy-api-3e87.onrender.com/fvi?lat=${lat}&lon=${lng}`)
         .then(res => res.json())
         .then(data => {
           setFvi(data);
@@ -71,6 +71,7 @@ const Map = ({ onNavigateHome }) => {
         });
     }
   }, [position]);
+
 
   return (
     <div className="map-wrapper">
