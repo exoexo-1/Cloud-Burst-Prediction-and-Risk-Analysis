@@ -26,7 +26,7 @@ def get_fvi(lat: float = Query(...), lon: float = Query(...), district: str = No
     return result
 
 @app.get("/analysis")
-def get_analysis( place_name: str = None):
+def get_analysis(place_name: str = None):
     fvi_data = result
     rag_context = RAGService.get_context(place_name)
     analysis = RiskAnalysisLLM.generate_risk_analysis(fvi_data, rag_context)
