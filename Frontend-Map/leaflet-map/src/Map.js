@@ -80,23 +80,23 @@ const Map = ({ onNavigateHome }) => {
     setIsPanelOpen(false);
   };
 
-  // Make toggle function globally available for the button
-  React.useEffect(() => {
-    window.toggleFVIPanel = togglePanel;
-    return () => {
-      delete window.toggleFVIPanel;
-    };
-  }, [isPanelOpen]);
-
   return (
     <div className="map-wrapper">
       <button className="back-to-home-btn" onClick={onNavigateHome}>
         &larr; Back to Home
       </button>
 
-      {/* Remove the old button positioning */}
-
       <RadiusControl radius={radius} setRadius={setRadius} />
+      
+      <div className="fvi-button-container">
+        <button
+          className={`fvi-details-btn ${!fvi || isPanelOpen ? 'disabled' : ''}`}
+          onClick={togglePanel}
+          disabled={!fvi || isPanelOpen}
+        >
+          {!fvi ? 'Loading FVI...' : 'FVI Details'}
+        </button>
+      </div>
       
       <MapContainer center={initialPosition} zoom={13} style={{ height: "100vh", width: "100%" }}>
         <LayersControl position="topright">
@@ -145,18 +145,6 @@ const Map = ({ onNavigateHome }) => {
                 </ul>
               </Tooltip>
             </Marker>
-            
-            {!isPanelOpen && (
-              <Marker 
-                position={[position.lat - 0.002, position.lng]} // Slightly below the main marker
-                icon={L.divIcon({
-                  html: `<button class="fvi-details-btn-marker" onclick="window.toggleFVIPanel()">FVI Details</button>`,
-                  className: 'custom-button-marker',
-                  iconSize: [100, 30],
-                  iconAnchor: [50, 15]
-                })}
-              />
-            )}
             
             <Circle center={position} pathOptions={circleOptions} radius={radius} />
           </>
