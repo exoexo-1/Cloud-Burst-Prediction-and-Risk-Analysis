@@ -59,7 +59,8 @@ const Map = ({ onNavigateHome }) => {
       setFvi(null); // reset while fetching
       const { lat, lng } = position;
 
-      fetch(`http://127.0.0.1:8000/fvi?lat=${lat}&lon=${lng}`)
+      fetch(`/api/fvi?lat=${lat}&lon=${lng}`)
+
         .then(res => res.json())
         .then(data => {
           setFvi(data);
