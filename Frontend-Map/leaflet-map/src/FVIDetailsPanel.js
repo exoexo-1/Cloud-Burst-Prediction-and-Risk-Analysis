@@ -5,7 +5,7 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
   return (
     <div className={`fvi-details-panel ${isOpen ? 'open' : ''}`}>
       <div className="fvi-panel-header">
-        <h3>FVI Details</h3>
+        <h3>Location Report</h3>
         <button className="close-panel-btn" onClick={onClose}>
           ×
         </button>
