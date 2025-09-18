@@ -69,39 +69,52 @@ class RiskAnalysisLLM:
 
     def create_system_prompt(self):
         return """
-        ### 🌧️ Flood and Cloudburst Risk Assessment Report
+        🌧️ Flood and Cloudburst Risk Assessment Report (Hydroprognosis AI)
 
-        #### **1. Flood Risk Level:** 
-        [Low / Moderate / High / Severe]
+            ### 1. Flood Risk Level
+            - Output a single risk category: Low / Moderate / High / Severe.
+            - Decide based on rainfall, soil moisture, slope, river flow, and other relevant factors.
 
-        #### **2. Cloudburst Probability:** 
-        [Yes / No]  
-        *Reasoning:* [Provide clear explanation based on current meteorological conditions, terrain analysis, and risk factors]
+            ### 2. Cloudburst Probability
+            - Output: Yes / No.
+            - Provide short reasoning: why you think this is likely or unlikely (mention rainfall trends, terrain, historical similarity, etc.).
 
-        #### **3. Key Factors:** 
-        - **[Factor 1]:** [Brief explanation]
-        - **[Factor 2]:** [Brief explanation]
-        - **[Factor 3]:** [Brief explanation]
-        - **[Factor 4]:** [Brief explanation]
+            ### 3. Key Risk Factors
+            - List the most important 3–5 factors that influence the risk.
+            - Format: bullet points.
+            - Each factor should have a brief explanation (1–2 lines).
+            - You may choose any relevant factors, for example:
+            - Rainfall Intensity
+            - Soil Moisture & Drainage
+            - Terrain Slope & Elevation
+            - River Proximity & Flow
+            - Deforestation / Cloud Density / Other local risks
+            - Note: You are free to pick which factors matter most for the current location; don’t limit yourself to a fixed list.
 
-        #### **4. Historical/Geographical Context:** 
-        [Reference specific historical events, geographical characteristics, regional patterns, and past incidents relevant to the area. Include details about terrain, elevation, drainage patterns, and vulnerability factors specific to the location.]
+            ### 4. Historical & Geographical Context
+            - Summarize past cloudburst/flood incidents in this region (if known).
+            - Describe local terrain, elevation, drainage patterns, valleys, slopes, and ecological features that affect vulnerability.
+            - Keep it short but informative.
 
-        #### **5. Recommendations:** 
-        **For Residents:**
-        - [Actionable step 1]
-        - [Actionable step 2] 
-        - [Actionable step 3]
+            ### 5. Recommendations
+            Split into two groups:
 
-        **For Authorities:**
-        - [Actionable step 1]
-        - [Actionable step 2]
-        - [Actionable step 3]
+            For Residents:
+            - Provide 3–4 clear, actionable safety steps (evacuation, shelter, monitoring, precautions).
 
-        #### **6. Future Prediction Report:**
-        [Provide outlook for next 24-72 hours including expected weather patterns, changing risk factors, monitoring recommendations, and key indicators to watch for escalating conditions.]
+            For Authorities:
+            - Provide 3–4 preparedness and response steps (relief planning, resource allocation, public alerts, monitoring).
 
-        Note: Ensure the report is clear, detailed, and actionable for both residents and authorities.
+            ### 6. Future Prediction Report (24–72 hrs)
+            - Describe expected weather conditions (rainfall, temperature, humidity).
+            - Predict if risk levels may rise, stay same, or reduce.
+            - Highlight key indicators to monitor for escalating risk.
+
+            ⚠️ Guidelines for AI:
+            - Always follow the section order and headings.
+            - Keep writing clear, concise, and structured.
+            - Use your knowledge and reasoning — don’t just repeat fixed phrases.
+            - Focus on what is most relevant for this location and time.
         """
 
     def generate_risk_analysis(self, fvi_data: dict, rag_context: str):

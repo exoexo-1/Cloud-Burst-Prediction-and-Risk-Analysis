@@ -7,13 +7,12 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Parse the structured analysis response with better flexibility
+  // Flexible parser for AI response
   const parseAnalysis = (rawAnalysis) => {
     if (!rawAnalysis) return null;
-    
-    // Handle case where analysis might be an object instead of string
-    const analysisText = typeof rawAnalysis === 'object' 
-      ? JSON.stringify(rawAnalysis, null, 2) 
+
+    const analysisText = typeof rawAnalysis === 'object'
+      ? JSON.stringify(rawAnalysis, null, 2)
       : rawAnalysis;
 
     const sections = {};
@@ -21,80 +20,72 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
     let currentSection = null;
     let content = [];
 
-    // Define potential section headers we might encounter
+    // Looser regex patterns to match both "Flood Risk Level:" and "### 1. Flood Risk Level"
     const sectionPatterns = {
-      floodRisk: /flood risk level:/i,
-      cloudburstProb: /cloudburst probability:/i,
-      keyFactors: /key factors:/i,
-      historicalContext: /historical.*context:/i,
-      recommendations: /recommendations:/i,
-      futurePrediction: /future.*prediction:/i
+      floodRisk: /(flood risk level)/i,
+      cloudburstProb: /(cloudburst probability)/i,
+      keyFactors: /(key risk factors?)/i,
+      historicalContext: /(historical.*context)/i,
+      recommendations: /(recommendations)/i,
+      futurePrediction: /(future.*(report|outlook))/i
     };
 
     for (let line of lines) {
       line = line.trim();
-      
-      // Skip empty lines
       if (!line) continue;
 
-      // Check if this line starts a new section
+      // Section header detection
       let sectionFound = false;
       for (const [sectionKey, pattern] of Object.entries(sectionPatterns)) {
         if (pattern.test(line)) {
-          // Save previous section content
           if (currentSection && content.length > 0) {
-            sections[currentSection] = currentSection === 'keyFactors' || currentSection === 'recommendations' 
-              ? [...content] 
-              : content.join(' ');
+            sections[currentSection] =
+              currentSection === 'keyFactors' || currentSection === 'recommendations'
+                ? [...content]
+                : content.join(' ');
             content = [];
           }
-          
-          // Extract value if it's a simple key-value line
-          if (sectionKey === 'floodRisk' || sectionKey === 'cloudburstProb') {
-            const value = line.split(':')[1]?.trim() || '';
-            sections[sectionKey] = sectionKey === 'cloudburstProb' 
-              ? { value, reasoning: '' } 
-              : value;
+
+          if (sectionKey === 'floodRisk') {
+            sections[sectionKey] = '';
+          } else if (sectionKey === 'cloudburstProb') {
+            sections[sectionKey] = { value: '', reasoning: '' };
           }
-          
+
           currentSection = sectionKey;
           sectionFound = true;
           break;
         }
       }
-      
       if (sectionFound) continue;
-      
-      // Handle content for current section
+
+      // Handle content inside section
       if (currentSection) {
-        // Extract cloudburst reasoning
         if (currentSection === 'cloudburstProb' && line.toLowerCase().includes('reasoning')) {
-          if (sections.cloudburstProb) {
-            sections.cloudburstProb.reasoning = line.split(':').slice(1).join(':').trim();
-          }
+          sections.cloudburstProb.reasoning = line.split(':').slice(1).join(':').trim();
           continue;
         }
-        
-        // Skip markdown headers
-        if (line.startsWith('###') || line.startsWith('##') || line.startsWith('#')) continue;
-        
-        // Collect list items or paragraph content
-        if (line.startsWith('- ') || line.startsWith('* ') || line.startsWith('• ')) {
-          content.push(line.substring(2).trim());
-        } else if (line.startsWith('**') && line.endsWith('**')) {
-          // Handle bold text
-          content.push(line.replace(/\*\*/g, ''));
+
+        if (currentSection === 'floodRisk') {
+          sections.floodRisk = line.replace(/^[-*:]/, '').trim();
+        } else if (currentSection === 'cloudburstProb' && !line.toLowerCase().includes('reasoning')) {
+          sections.cloudburstProb.value = line.replace(/^[-*:]/, '').trim();
+        } else if (currentSection === 'keyFactors' || currentSection === 'recommendations') {
+          if (/^[-•*]/.test(line)) {
+            content.push(line.replace(/^[-•*]\s*/, '').trim());
+          }
         } else {
           content.push(line);
         }
       }
     }
-    
-    // Save the last section content
+
+    // Save last section
     if (currentSection && content.length > 0) {
-      sections[currentSection] = currentSection === 'keyFactors' || currentSection === 'recommendations' 
-        ? [...content] 
-        : content.join(' ');
+      sections[currentSection] =
+        currentSection === 'keyFactors' || currentSection === 'recommendations'
+          ? [...content]
+          : content.join(' ');
     }
 
     return sections;
@@ -122,9 +113,7 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
         body: JSON.stringify(requestBody),
       })
       .then(res => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         return res.json();
       })
       .then(data => {
@@ -165,10 +154,8 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
     return '⚪';
   };
 
-  // Render section only if it exists in the parsed analysis
   const renderSection = (title, content, renderFunction) => {
     if (!content) return null;
-    
     return (
       <div className="analysis-section">
         <h4>{title}</h4>
@@ -237,18 +224,20 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
                           </div>
                         </div>
                       )}
-                      
+
                       {parsedAnalysis.cloudburstProb && (
                         <div className="risk-card cloudburst-risk">
                           <div className="risk-icon">
-                            {parsedAnalysis.cloudburstProb.value && parsedAnalysis.cloudburstProb.value.toLowerCase().includes('yes') ? '⛈️' : '🌤️'}
+                            {parsedAnalysis.cloudburstProb.value &&
+                            parsedAnalysis.cloudburstProb.value.toLowerCase().includes('yes') ? '⛈️' : '🌤️'}
                           </div>
                           <div className="risk-content">
                             <span className="risk-label">Cloudburst Probability</span>
                             <span 
                               className="risk-value"
                               style={{ 
-                                color: parsedAnalysis.cloudburstProb.value && parsedAnalysis.cloudburstProb.value.toLowerCase().includes('yes') ? '#dc3545' : '#28a745' 
+                                color: parsedAnalysis.cloudburstProb.value &&
+                                parsedAnalysis.cloudburstProb.value.toLowerCase().includes('yes') ? '#dc3545' : '#28a745' 
                               }}
                             >
                               {parsedAnalysis.cloudburstProb.value || 'Unknown'}
@@ -257,7 +246,6 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
                         </div>
                       )}
                     </div>
-                    
                     {parsedAnalysis.cloudburstProb?.reasoning && (
                       <div className="reasoning-box">
                         <strong>Analysis:</strong> {parsedAnalysis.cloudburstProb.reasoning}
@@ -275,7 +263,7 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
                       {factors.map((factor, idx) => (
                         <div key={idx} className="factor-card">
                           <span className="factor-bullet">•</span>
-                          <span className="factor-text">{factor.replace(/\*\*/g, '')}</span>
+                          <span className="factor-text">{factor}</span>
                         </div>
                       ))}
                     </div>
@@ -302,7 +290,6 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
                       {recommendations.map((rec, idx) => {
                         const isForResidents = rec.toLowerCase().includes('residents');
                         const isForAuthorities = rec.toLowerCase().includes('authorities');
-                        
                         return (
                           <div key={idx} className={`recommendation-item ${
                             isForResidents ? 'for-residents' : 
@@ -312,7 +299,7 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
                               {isForResidents ? '🏠' : isForAuthorities ? '🏛️' : '📋'}
                             </div>
                             <div className="rec-content">
-                              <p>{rec.replace(/\*\*/g, '')}</p>
+                              <p>{rec}</p>
                             </div>
                           </div>
                         );
@@ -333,7 +320,6 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
                 )}
               </>
             ) : analysis ? (
-              /* Fallback to raw analysis if parsing fails */
               <div className="detailed-analysis">
                 <h4>📊 Complete Analysis Report</h4>
                 <div className="analysis-card">
