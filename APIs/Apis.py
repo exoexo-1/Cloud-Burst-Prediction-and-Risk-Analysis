@@ -42,6 +42,7 @@ def get_analysis(request: dict = Body(...)):
             
         rag_context = rag_service.get_context(place_name)
         analysis_result = llm.generate_risk_analysis(fvi_data, rag_context)
+        print(analysis_result)
         
         return {
             "analysis": analysis_result["analysis"],
