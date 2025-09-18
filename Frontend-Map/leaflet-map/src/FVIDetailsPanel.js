@@ -228,16 +228,22 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
                       {parsedAnalysis.cloudburstProb && (
                         <div className="risk-card cloudburst-risk">
                           <div className="risk-icon">
-                            {parsedAnalysis.cloudburstProb.value &&
-                            parsedAnalysis.cloudburstProb.value.toLowerCase().includes('yes') ? '⛈️' : '🌤️'}
+                            {parsedAnalysis.cloudburstProb.value === 'Yes'
+                              ? '⛈️'
+                              : parsedAnalysis.cloudburstProb.value === 'No'
+                              ? '🌤️'
+                              : '⚪'}
                           </div>
                           <div className="risk-content">
                             <span className="risk-label">Cloudburst Probability</span>
                             <span 
                               className="risk-value"
                               style={{ 
-                                color: parsedAnalysis.cloudburstProb.value &&
-                                parsedAnalysis.cloudburstProb.value.toLowerCase().includes('yes') ? '#dc3545' : '#28a745' 
+                                color: parsedAnalysis.cloudburstProb.value === 'Yes'
+                                  ? '#dc3545'
+                                  : parsedAnalysis.cloudburstProb.value === 'No'
+                                  ? '#28a745'
+                                  : '#6c757d'
                               }}
                             >
                               {parsedAnalysis.cloudburstProb.value || 'Unknown'}
@@ -246,6 +252,7 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
                         </div>
                       )}
                     </div>
+
                     {parsedAnalysis.cloudburstProb?.reasoning && (
                       <div className="reasoning-box">
                         <strong>Analysis:</strong> {parsedAnalysis.cloudburstProb.reasoning}
@@ -253,6 +260,7 @@ const FVIDetailsPanel = ({ isOpen, onClose, position, fvi, placeName }) => {
                     )}
                   </div>
                 )}
+
 
                 {/* Key Factors */}
                 {renderSection(
