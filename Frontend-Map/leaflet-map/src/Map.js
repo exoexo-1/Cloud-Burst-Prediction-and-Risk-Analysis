@@ -62,7 +62,7 @@ const Map = ({ onNavigateHome }) => {
       setFvi(null); // reset while fetching
       const { lat, lng } = position;
 
-      fetch(`http://127.0.0.1:8000/fvi?lat=${lat}&lon=${lng}`)
+      fetch(`https://cloud-burst-prediction-and-risk-analysis-69by.onrender.com/fvi?lat=${lat}&lon=${lng}`)
         .then(res => res.json())
         .then(data => {
           setFvi(data);

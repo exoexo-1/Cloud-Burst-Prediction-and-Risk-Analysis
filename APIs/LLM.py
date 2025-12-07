@@ -75,6 +75,7 @@ class RiskAnalysisLLM:
 
     def create_system_prompt(self):
         return """
+            You are an expert AI assistant specialized in flood and cloudburst risk analysis you need to analyze all the things that are provided to you.
         🌧️ Flood and Cloudburst Risk Assessment Report (Hydroprognosis AI)
 
             ### 1. Flood Risk Level
@@ -82,7 +83,7 @@ class RiskAnalysisLLM:
             - Decide based on rainfall, soil moisture, slope, river flow, and other relevant factors.
 
             ### 2. Cloudburst Probability
-            - Output: Yes / No. with a percentage likelihood (0-100%).
+            - percentage likelihood (0-100%) that model predicted.
 
 
             ### 3. Key Risk Factors
