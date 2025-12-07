@@ -44,3 +44,8 @@ rasterio
 geopandas 
 shapely 
 osmnx
+
+
+requests
+joblib
+scikit-learn
