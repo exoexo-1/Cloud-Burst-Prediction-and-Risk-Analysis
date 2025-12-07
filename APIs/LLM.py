@@ -3,11 +3,11 @@ import os
 from dotenv import load_dotenv
 from langchain_chroma import Chroma
 from langchain_openai import OpenAIEmbeddings
-import joblib
 import numpy as np
 from datetime import date, timedelta
 import requests
 from openai import OpenAI
+import joblib
 
 
 # Load environment variables
@@ -69,6 +69,9 @@ class RiskAnalysisLLM:
     def __init__(self):
         self.client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
         self.model = "gpt-4o-mini"
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        self.scaler = joblib.load(os.path.join(BASE_DIR, "scaler.pkl"))
+        self.regressor = joblib.load(os.path.join(BASE_DIR, "cloudburst_regressor.pkl"))
 
     def create_system_prompt(self):
         return """
@@ -122,17 +125,12 @@ class RiskAnalysisLLM:
     
 
 
-    def predict_cloudburst(self,lat: float, lon: float):
+    def predict_cloudburst(self, lat: float, lon: float):
         import requests
         import numpy as np
         import joblib
         from datetime import date, timedelta
 
-        # -----------------------------
-        # Load models INSIDE function
-        # -----------------------------
-        scaler = joblib.load("scaler.pkl")
-        regressor = joblib.load("cloudburst_regressor.pkl")
 
         # -----------------------------
         # Mappings
@@ -300,8 +298,8 @@ class RiskAnalysisLLM:
         # -----------------------------
         # Scale + Predict
         # -----------------------------
-        scaled = scaler.transform(features)
-        raw_pred = regressor.predict(scaled)[0]
+        scaled = self.scaler.transform(features)
+        raw_pred = self.regressor.predict(scaled)[0]
         probability = int(max(0, min(100, round(raw_pred))))
 
         return {"probability": probability}
