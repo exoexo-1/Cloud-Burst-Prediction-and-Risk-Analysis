@@ -122,7 +122,7 @@ class RiskAnalysisLLM:
     
 
 
-    def predict_cloudburst(lat: float, lon: float):
+    def predict_cloudburst(self,lat: float, lon: float):
         import requests
         import numpy as np
         import joblib
@@ -396,36 +396,3 @@ class RiskAnalysisLLM:
                 "rag_context": rag_context
             }
         
-
-# fvi_data = {
-#     "location": {"latitude": 29.9457, "longitude": 78.1642},
-#     "fvi_score": 62.5,
-#     "risk_level": "Moderate",
-#     "inputs": {
-#         "weather": {
-#             "current_rainfall": 6.2,
-#             "weekly_rainfall": 22.3,
-#             "soil_moisture": 0.25,
-#             "humidity": 78,
-#             "precipitation_probability": 65
-#         },
-#         "terrain": {"elevation": 1800, "slope": 25},
-#         "hydrology": {"distance_to_water": 200, "drainage_density": 0.45},
-#         "socioeconomic": {
-#             "population_density": 320,
-#             "urbanization_level": 45,
-#             "imperviousness": 30,
-#             "district": "Chamoli"
-#         }
-#     },
-#     "key_factors": ["High slope", "Moderate rainfall", "Medium population density"]
-# }
-
-# # # Get RAG context
-# # rag_service = RAGService()
-# # rag_context = rag_service.get_context("Chamoli")
-
-# # # Generate analysis
-# # llm = RiskAnalysisLLM()
-# # result = llm.generate_risk_analysis(fvi_data, rag_context)
-# # print(result["analysis"])
