@@ -38,6 +38,8 @@ Leaflet Frontend (React)
                               ├── RAG Service (ChromaDB + OpenAI Embeddings)
                               └── GPT-4o-mini (risk report generation)
 ```
+<img width="985" height="815" alt="Screenshot 2025-08-12 225542" src="https://github.com/user-attachments/assets/59b187ee-5075-43b8-8eb2-4311435dfa64" />
+
 
 ---
 
@@ -195,14 +197,5 @@ Contributions are welcome. Open an issue or submit a pull request.
 
 ---
 
-## Author
 
-**Lakshya Agrawal**  
-AI & ML | Computer Vision | Backend Development  
-[LinkedIn](https://www.linkedin.com/in/lakshya-agrawal-35689226b/) · [GitHub](https://github.com/exoexo-1)
 
-<img width="985" height="815" alt="Screenshot 2025-08-12 225542" src="https://github.com/user-attachments/assets/59b187ee-5075-43b8-8eb2-4311435dfa64" />
-
-## LIVE:
-https://hydroprognosis.vercel.app/
-## We welcome contributions!
